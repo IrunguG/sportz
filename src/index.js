@@ -3,6 +3,7 @@ import  matchRouter  from './routes/matches.js';
 import 'dotenv/config'
 import http from 'http'
 import { attachWebSocketServer } from './ws/server.js';
+import { securityMiddleware } from './arcjet.js';
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.get("/", (req, res) => {
     res.send("Hello from express server")
 });
 
+app.use(securityMiddleware());
 app.use("/matches", matchRouter);
 
 const { broadcastMatchCreated } = attachWebSocketServer(server);
